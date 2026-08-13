@@ -1,0 +1,42 @@
+# =========================
+# Environment / Secrets
+# =========================
+.env
+.env.*
+!.env.example
+
+# =========================
+# Java / Spring Boot
+# =========================
+target/
+*.class
+
+# IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# =========================
+# React / Node
+# =========================
+frontend/node_modules/
+frontend/dist/
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# =========================
+# Python
+# =========================
+ml-service/__pycache__/
+ml-service/*.py[cod]
+ml-service/.venv/
+ml-service/venv/
+ml-service/.pytest_cache/
+
+# =========================
+# OS
+# =========================
+.DS_Store
+Thumbs.db
