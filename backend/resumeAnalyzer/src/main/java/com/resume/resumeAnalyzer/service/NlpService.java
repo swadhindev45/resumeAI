@@ -2,6 +2,7 @@ package com.resume.resumeAnalyzer.service;
 
 import com.resume.resumeAnalyzer.dto.AnalysisRequest;
 import com.resume.resumeAnalyzer.dto.AnalysisResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
@@ -10,9 +11,12 @@ public class NlpService {
 
     private final RestClient restClient;
 
-    public NlpService(RestClient.Builder builder) {
+    public NlpService(
+            RestClient.Builder builder,
+            @Value("${nlp.service.url}") String nlpServiceUrl) {
+
         this.restClient = builder
-                .baseUrl("http://localhost:8000")
+                .baseUrl(nlpServiceUrl)
                 .build();
     }
 

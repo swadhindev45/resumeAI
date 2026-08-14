@@ -40,3 +40,7 @@ ml-service/.pytest_cache/
 # =========================
 .DS_Store
 Thumbs.db
+# Frontend environment variables
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
