@@ -13,7 +13,7 @@ public class NlpService {
 
     public NlpService(
             RestClient.Builder builder,
-            @Value("${nlp.service.url}") String nlpServiceUrl) {
+            @Value("${NLP_SERVICE_URL}") String nlpServiceUrl) {
 
         this.restClient = builder
                 .baseUrl(nlpServiceUrl)
