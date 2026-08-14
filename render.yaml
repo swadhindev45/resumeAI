@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: resume-analyzer-backend
+    runtime: java
+    rootDir: backend/resumeAnalyzer
+    buildCommand: ./mvnw clean package -DskipTests
+    startCommand: java -jar target/*.jar
