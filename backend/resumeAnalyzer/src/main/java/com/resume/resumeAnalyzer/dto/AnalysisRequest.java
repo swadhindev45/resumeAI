@@ -1,8 +1,13 @@
 package com.resume.resumeAnalyzer.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class AnalysisRequest {
 
+    @JsonProperty("resume_text")
     private String resume_text;
+
+    @JsonProperty("job_description")
     private String job_description;
 
     public AnalysisRequest() {
