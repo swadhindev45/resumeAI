@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import spacy
 import re
+from skill_evidence import analyze_skill_evidence
 
 from skills import SKILLS
 
@@ -46,19 +47,39 @@ def extract_keywords(text: str):
 
 
 def extract_skills(text: str):
-
     normalized = normalize_text(text)
-
     found_skills = []
 
-    for skill in SKILLS:
+    # Check longer skill names before shorter ones.
+    sorted_skills = sorted(
+        SKILLS,
+        key=len,
+        reverse=True
+    )
 
+    for skill in sorted_skills:
         pattern = r"(?<!\w)" + re.escape(skill) + r"(?!\w)"
 
         if re.search(pattern, normalized):
             found_skills.append(skill)
 
-    return sorted(found_skills)
+    # Remove shorter skills contained within longer skills.
+    final_skills = []
+
+    for skill in found_skills:
+        is_subskill = any(
+            skill != other
+            and re.search(
+                r"(?<!\w)" + re.escape(skill) + r"(?!\w)",
+                other
+            )
+            for other in found_skills
+        )
+
+        if not is_subskill:
+            final_skills.append(skill)
+
+    return sorted(final_skills)
 
 
 @app.get("/")
@@ -98,6 +119,10 @@ def analyze(request: AnalyzeRequest):
     required_skills = extract_skills(
         job_description
     )
+    skill_evidence = analyze_skill_evidence(
+    request.resume_text,
+    required_skills
+    )
 
     resume_skill_set = set(resume_skills)
     required_skill_set = set(required_skills)
@@ -136,5 +161,7 @@ def analyze(request: AnalyzeRequest):
 
         "missing_skills": missing_skills,
 
-        "skill_match_score": skill_score
+        "skill_match_score": skill_score,
+
+        "skill_evidence": skill_evidence
     }
